@@ -25,6 +25,7 @@ namespace Project.Weather.Ui
             if (File.Exists(path))
             {
                 request.Load();
+                apiCityRequest.Load();  
             }
         }
 
@@ -58,33 +59,11 @@ namespace Project.Weather.Ui
         public async void addToTable(string cityName)
         {
             var add = await apiCityRequest.GetCityData(cityName);
-         //   var im = <img src=$"https:{add.current.condition.icon}" />;
+       
+    
+            dataGridView1.Rows.Add(add.location.name, add.current.temp_c);
 
-           // var p = $"https:{add.current.condition.icon}";
-
-          
-
-
-
-            Icon treeIcon = new Icon(this.GetType(), $"http:{add.current.condition.icon}");
-            DataGridViewImageColumn iconColumn = new DataGridViewImageColumn();
-            iconColumn.Image = treeIcon.ToBitmap();
-            iconColumn.Name = "Tree";
-            iconColumn.HeaderText = "Nice tree";
-            dataGridView1.Columns.Insert(2, iconColumn);
-
-
-            dataGridView1.Rows.Add(add.location.name, add.current.temp_c, treeIcon);
-
-            /*
-            DataGridViewImageColumn img = new DataGridViewImageColumn();
-            Image image = "dssd";
-                
-                img.FromFile(add.current.condition.icon);
-               img.Image = image;
-              dataGridView1.Columns.Add(img);
-             */
-
+         
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -112,7 +91,10 @@ namespace Project.Weather.Ui
             await request.UpdateList();
         }
 
-        
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 
 }
