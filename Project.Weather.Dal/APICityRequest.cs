@@ -14,13 +14,13 @@ namespace Project.Weather.Dal
     public class APICityRequest
     {
         
-        readonly string OneCityWeather = @"C:\Users\User\OneDrive\Moshe Yaso Work\C#Projects\Project.Weather\Project.Weather.Ui\bin\Debug\OneCityWeather.txt";
-        readonly string TableDictionary = @"C:\Users\User\OneDrive\Moshe Yaso Work\C#Projects\Project.Weather\Project.Weather.Ui\bin\Debug\TableDictionary.txt";
+        readonly string OneCityWeatherPathFile = @"C:\Users\User\OneDrive\Moshe Yaso Work\C#Projects\Project.Weather\Project.Weather.Ui\bin\Debug\OneCityWeather.txt";
+        readonly string TableDictionaryPathFile = @"C:\Users\User\OneDrive\Moshe Yaso Work\C#Projects\Project.Weather\Project.Weather.Ui\bin\Debug\TableDictionary.txt";
         
         public async Task<WeatherModel> GetCityData(string cityName)
         {
 
-            WeatherModel weather;
+            WeatherModel weatherData;
 
             using (var client = new HttpClient())
             {
@@ -34,39 +34,39 @@ namespace Project.Weather.Dal
 
                 string lines = await pespones.Content.ReadAsStringAsync();
 
-                weather = JsonSerializer.Deserialize<WeatherModel>(lines);
+                weatherData = JsonSerializer.Deserialize<WeatherModel>(lines);
 
-                return weather;
+                return weatherData;
 
             }
         }
 
-        public void Save(Dictionary<string, WeatherModel> dic)
+        public void Save(Dictionary<string, WeatherModel> data)
         {
-            string dataDiC = JsonSerializer.Serialize(dic);
+            string dataFromDicToString = JsonSerializer.Serialize(data);
 
-            File.WriteAllText(TableDictionary, dataDiC);
+            File.WriteAllText(TableDictionaryPathFile, dataFromDicToString);
         }
 
-        public void SaveOneCityWeather(WeatherModel dic)
+        public void SaveOneCityWeather(WeatherModel data)
         {
-            string dataDiC = JsonSerializer.Serialize(dic);
+            string res = JsonSerializer.Serialize(data);
 
-            File.WriteAllText(OneCityWeather, dataDiC);
+            File.WriteAllText(OneCityWeatherPathFile, res);
         }
 
         public WeatherModel LoadOneCity()
         {
-            string res = File.ReadAllText(OneCityWeather);
-            var dic = JsonSerializer.Deserialize<WeatherModel>(res);
-            return dic;
+            string res = File.ReadAllText(OneCityWeatherPathFile);
+            var data = JsonSerializer.Deserialize<WeatherModel>(res);
+            return data;
         }
 
         public Dictionary<string, WeatherModel> Load()
         {
-            string res = File.ReadAllText(TableDictionary);
-            var dic = JsonSerializer.Deserialize<Dictionary<string, WeatherModel>>(res);
-            return dic;
+            string res = File.ReadAllText(TableDictionaryPathFile);
+            var data = JsonSerializer.Deserialize<Dictionary<string, WeatherModel>>(res);
+            return data;
         }
     }
 }

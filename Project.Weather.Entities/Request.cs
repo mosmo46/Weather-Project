@@ -21,17 +21,17 @@ namespace Project.Weather.Entities
             WeatherTable = apiCityRequest.Load();
         }
 
-        public async Task<Dictionary<string, WeatherModel>> AddOrUpdateFile(string nameCity)
+        public async Task<Dictionary<string, WeatherModel>> AddOrUpdateFile(string cityName)
         {
-            var allCity = await apiCityRequest.GetCityData(nameCity);
+            var weatherCityData = await apiCityRequest.GetCityData(cityName);
 
-            if (!WeatherTable.ContainsKey(allCity.location.name))
+            if (!WeatherTable.ContainsKey(weatherCityData.location.name))
             {
-                WeatherTable.Add(allCity.location.name, allCity);
+                WeatherTable.Add(weatherCityData.location.name, weatherCityData);
             }
             else
             {
-                WeatherTable[allCity.location.name] = allCity;
+                WeatherTable[weatherCityData.location.name] = weatherCityData;
             }
 
             return WeatherTable;
@@ -76,12 +76,12 @@ namespace Project.Weather.Entities
             APICityRequest api = new APICityRequest();
             foreach (var item in list)
             {
-                var nameCity = item.Value.location.name;
-                var result = await api.GetCityData(nameCity);
+                var cityName = item.Value.location.name;
+                var result = await api.GetCityData(cityName);
 
-                if (!WeatherTable.ContainsKey(nameCity))
+                if (!WeatherTable.ContainsKey(cityName))
                 {
-                    WeatherTable.Add(nameCity, result);
+                    WeatherTable.Add(cityName, result);
                 }
             }
             apiCityRequest.Save(WeatherTable);

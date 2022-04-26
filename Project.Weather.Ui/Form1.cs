@@ -91,10 +91,7 @@ namespace Project.Weather.Ui
             await request.UpdateList();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+      
     }
 
 }
